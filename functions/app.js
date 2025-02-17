@@ -2,22 +2,20 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Router } from "express";
-dotenv.config();
-
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-
 import connectDB from "../../config/connectDB.js";
 import userRouter from "../../routes/user.route.js";
 import serverless from "serverless-http";
 
+dotenv.config();
 const app = express();
 
 app.use(
   cors({
-    credentials: true,
     origin: process.env.FRONTEND_URL,
+    credentials: true,
   })
 );
 
