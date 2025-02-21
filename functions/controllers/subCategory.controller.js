@@ -17,6 +17,7 @@ const AddSubCategoryController = async (req, res) => {
     });
 
     const save = await addSubCategory.save();
+    const savedSubCategory = await save.populate("category");
     return res.status(200).json({
       message: "SubCategory added successfully",
       error: false,
@@ -80,6 +81,7 @@ const DeleteSubCategoryController = async (req, res) => {
   try {
     const { _id } = req.body;
     const deleteSubCategory = await SubCategoryModel.findByIdAndDelete(_id);
+    
     return res.status(200).json({
       message: "SubCategory deleted successfully",
       error: false,

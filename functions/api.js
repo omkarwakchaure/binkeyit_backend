@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const categoryRouter = require("./routes/category.route.js");
 const uploadRouter = require("./routes/upload.route.js");
 const subCategoryRouter = require("./routes/subCategory.route.js");
+const productRouter = require("./routes/product.route.js");
 
 // Middleware setup
 app.use(express.json());
@@ -40,6 +41,7 @@ router.use("/user", userRouter);
 router.use("/category", categoryRouter);
 router.use("/file", uploadRouter);
 router.use("/subcategory", subCategoryRouter);
+router.use("/product", productRouter);
 
 app.use("/.netlify/functions/api", router);
 
