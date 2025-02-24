@@ -12,13 +12,13 @@ const productSchema = new mongoose.Schema(
     category: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: "category",
+        ref: "Category",
       },
     ],
     sub_category: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: "subCategory",
+        ref: "SubCategory",
       },
     ],
     unit: {
@@ -52,6 +52,17 @@ const productSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+  }
+);
+
+productSchema.index(
+  {
+    name: "text",
+    description: "text",
+  },
+  {
+    name: 10,
+    description: 5,
   }
 );
 

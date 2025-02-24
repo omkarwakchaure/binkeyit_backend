@@ -64,4 +64,44 @@ const createProductController = async (req, res) => {
   }
 };
 
-module.exports = { createProductController };
+const getProductController = async (req, res) => {
+  try {
+    
+    const { page = 1, limit = 10, search } = req.body;
+    const query = search
+      ? {
+          $text: { $search: search },
+        }
+      : {};
+
+    const skip = (page - 1) * limit;
+    const [data, totalCount] = await Promise.all([
+      ProductModel.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("category")
+        .populate("sub_category"),
+      ProductModel.countDocuments(query),
+    ]);
+
+    return res.status(200).json({
+      message: "Products fetched successfully",
+      success: true,
+      error: false,
+      data,
+      totalCount,
+      totalNoPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+      noOfRows: data?.length || 0,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      message: "Internal server error" || e,
+      error: true,
+      success: false,
+    });
+  }
+};
+
+module.exports = { createProductController, getProductController };
