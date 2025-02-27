@@ -66,14 +66,11 @@ const createProductController = async (req, res) => {
 
 const getProductController = async (req, res) => {
   try {
-    
     const { page = 1, limit = 10, search } = req.body;
-    const query = search
-      ? {
-          $text: { $search: search },
-        }
-      : {};
 
+    const query = search ? { $text: { $search: search } } : {};
+
+    console.log(query);
     const skip = (page - 1) * limit;
     const [data, totalCount] = await Promise.all([
       ProductModel.find(query)
@@ -84,7 +81,7 @@ const getProductController = async (req, res) => {
         .populate("sub_category"),
       ProductModel.countDocuments(query),
     ]);
-
+    console.log(data);
     return res.status(200).json({
       message: "Products fetched successfully",
       success: true,
